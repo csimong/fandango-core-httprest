@@ -3,32 +3,32 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 # Configuración de la base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///saludos.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///welcomings.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-class Saludo(db.Model):
+class Welcoming(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(80), nullable=False)
-    mensaje = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
+    message = db.Column(db.String(120), nullable=False)
 
     def __repr__(self):
-        return '<Saludo %r>' % self.nombre
+        return '<Welcoming %r>' % self.name
 
 # @app.before_first_request
-def crear_tablas():
+def create_tables():
     db.create_all()
 with app.app_context():
     db.create_all()
 
-@app.route('/saludo', methods=['GET'])
-def saludo():
-    nombre = request.args.get('nombre', 'Mundo')
-    mensaje = f'Hola, {nombre}!'
-    saludo = Saludo(nombre=nombre, mensaje=mensaje)
-    db.session.add(saludo)
+@app.route('/welcoming', methods=['GET'])
+def welcoming():
+    name = request.args.get('name', 'World')
+    message = f'Hello, {name}!'
+    welcoming = Welcoming(name=name, message=message)
+    db.session.add(welcoming)
     db.session.commit()
-    return jsonify({'mensaje': mensaje})
+    return jsonify({'message': message})
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
