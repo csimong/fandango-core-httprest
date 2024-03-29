@@ -1,23 +1,18 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from dbconfig import db
+from models import Welcoming
 
+# Instanciate flask app
 app = Flask(__name__)
-# Configuración de la base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///welcomings.db'
+
+# Database configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fandango.db' # URI configuration (sqlite and fandango.db)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
-class Welcoming(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    message = db.Column(db.String(120), nullable=False)
+# Associate db to flask app
+db.init_app(app)
 
-    def __repr__(self):
-        return '<Welcoming %r>' % self.name
-
-# @app.before_first_request
-def create_tables():
-    db.create_all()
+# Create all db tables under app context
 with app.app_context():
     db.create_all()
 
