@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from dbconfig import db
+from db import db
 from models import Welcoming
 
 def register_views(app):

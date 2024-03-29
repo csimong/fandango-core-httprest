@@ -1,4 +1,4 @@
-from dbconfig import db
+from db import db
 
 class Welcoming(db.Model):
     id = db.Column(db.Integer, primary_key=True)
