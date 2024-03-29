@@ -1,13 +1,10 @@
 from flask import request, jsonify
 from db import db
-from models import Welcoming
+from db import Project
 
 def register_views(app):
-    @app.route('/welcoming', methods=['GET'])
-    def welcoming():
-        name = request.args.get('name', 'World')
-        message = f'Hello, {name}!'
-        welcoming = Welcoming(name=name, message=message)
-        db.session.add(welcoming)
-        db.session.commit()
-        return jsonify({'message': message})
+    @app.route('/projects/', methods=['GET'])
+    def get_projects():
+            projects = Project.query.all()
+            projects_list = [project.to_dict() for project in projects]
+            return jsonify(projects_list)

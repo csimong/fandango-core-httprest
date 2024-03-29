@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from db import db
-from models import Welcoming
 from views import register_views
 
 # Instanciate flask app
