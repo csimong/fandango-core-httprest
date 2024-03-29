@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from dbconfig import db
 from models import Welcoming
+from views import register_views
 
 # Instanciate flask app
 app = Flask(__name__)
@@ -16,14 +17,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route('/welcoming', methods=['GET'])
-def welcoming():
-    name = request.args.get('name', 'World')
-    message = f'Hello, {name}!'
-    welcoming = Welcoming(name=name, message=message)
-    db.session.add(welcoming)
-    db.session.commit()
-    return jsonify({'message': message})
+register_views(app)
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
